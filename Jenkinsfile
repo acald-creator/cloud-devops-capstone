@@ -1,5 +1,5 @@
 pipeline {
-    agents any
+    agent any
     stages {
         stage('Connect local Kubernetes cluster to AWS EKS') {
             steps {
