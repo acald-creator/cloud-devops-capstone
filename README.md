@@ -77,11 +77,4 @@ eksctl create cluster --node-ami-family=Ubuntu2004
 2022-03-06 20:10:21 [ℹ]  waiting for CloudFormation stack "eksctl-hilarious-monster-1646618989-cluster"
 ```
 
-6. Create an AWS S3 Bucket
-    - Ensure that **Block Public Access Settings for this bucket** is unchecked
-    - Agree to the acknowledgement
-    - Select the bucket's name and head to **Permissions**
-    - Edit **Bucket Policy**
-7. Create the pipeline for AWS
-8. Add another stage in the pipeline
-    - Install `tidy` which is a linter to lint the example html file.
+6. Create the pipeline for AWS
