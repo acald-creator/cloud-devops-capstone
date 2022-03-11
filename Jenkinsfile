@@ -46,7 +46,7 @@ pipeline {
         }
     stage('Set current kubectl context') {
             steps {
-                withAWS(region:'us-east-2', credentials:'aws-static') {
+                withAWS(region:'us-east-1', credentials:'aws-static') {
                     sh '''
                         kubectl config use-context arn:aws:eks:us-east-1:259445498767:cluster/hilarious-monster-1646618989
                     '''
@@ -55,7 +55,7 @@ pipeline {
         }
         stage('Deploy blue containers for blue environment') {
             steps {
-                withAWS(region:'us-east-2', credentials:'aws-static') {
+                withAWS(region:'us-east-1', credentials:'aws-static') {
         					sh '''
         						sed -e 's/{{TARGET_ROLE}}/blue/g' -e 's/{{IMAGE_VERSION}}/blue/' deployment.yaml | kubectl apply -f -
         					'''
@@ -64,7 +64,7 @@ pipeline {
         		}
                 stage('Deploy blue containers for green environment') {
                     steps {
-                        withAWS(region:'us-east-2', credentials:'aws-static') {
+                        withAWS(region:'us-east-1', credentials:'aws-static') {
                 					sh '''
                 						sed -e 's/{{TARGET_ROLE}}/green/g' -e 's/{{IMAGE_VERSION}}/blue/' deployment.yaml | kubectl apply -f -
                 					'''
@@ -74,7 +74,7 @@ pipeline {
 
          stage('Create service for cluster and redirect to blue') {
          			steps {
-         				withAWS(region:'us-east-2', credentials:'aws-static') {
+         				withAWS(region:'us-east-1', credentials:'aws-static') {
          					sh '''
          						sed  's/{{TARGET_ROLE}}/blue/g' service.yaml | kubectl apply -f -
          					'''
@@ -84,7 +84,7 @@ pipeline {
 
          stage('Deploy green containers for green environment') {
                          			steps {
-                         				withAWS(region:'us-east-2', credentials:'aws-static') {
+                         				withAWS(region:'us-east-1', credentials:'aws-static') {
                          					sh '''
                          						sed -e 's/{{TARGET_ROLE}}/green/g' -e 's/{{IMAGE_VERSION}}/green/' deployment.yaml | kubectl apply -f -
                          					'''
@@ -94,7 +94,7 @@ pipeline {
 
         stage('Create service to test green') {
                  			steps {
-                 				withAWS(region:'us-east-2', credentials:'aws-static') {
+                 				withAWS(region:'us-east-1', credentials:'aws-static') {
                  					sh '''
                  						sed  's/{{TARGET_ROLE}}/green/g' service-test.yaml | kubectl apply -f -
                  					'''
@@ -112,12 +112,12 @@ pipeline {
 
         stage('Update service for cluster and redirect to green') {
                  			steps {
-                 				withAWS(region:'us-east-2', credentials:'aws-static') {
+                 				withAWS(region:'us-east-1', credentials:'aws-static') {
                  					sh '''
                  						sed  's/{{TARGET_ROLE}}/green/g' service.yaml | kubectl apply -f -
                  					'''
                  				}
                  			}
                  		}
-    }
- }
+                    }
+                }
